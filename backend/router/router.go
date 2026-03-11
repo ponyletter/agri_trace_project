@@ -30,6 +30,8 @@ func Setup(
 		auth := v1.Group("/auth")
 		{
 			auth.POST("/login", authCtrl.Login)
+			// 注册接口：开放给所有人（实际生产可改为仅管理员）
+			auth.POST("/register", authCtrl.Register)
 		}
 
 		// ---- 溯源公开查询接口（无需鉴权，供微信小程序使用）----
@@ -42,8 +44,6 @@ func Setup(
 		{
 			// 用户信息
 			authorized.GET("/auth/profile", authCtrl.GetProfile)
-			// 仅管理员可注册新用户
-			authorized.POST("/auth/register", middleware.RoleRequired("admin"), authCtrl.Register)
 
 			// 批次管理
 			authorized.POST("/batches", middleware.RoleRequired("farmer", "admin"), traceCtrl.CreateBatch)

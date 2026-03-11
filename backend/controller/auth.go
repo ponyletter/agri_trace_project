@@ -38,11 +38,13 @@ func (ctrl *AuthController) Login(c *gin.Context) {
 
 	var user model.User
 	if err := ctrl.DB.Where("username = ?", req.Username).First(&user).Error; err != nil {
+		// 用户不存在时也返回相同提示，防止用户名枚举
 		c.JSON(http.StatusUnauthorized, gin.H{"code": 401, "msg": "用户名或密码错误"})
 		return
 	}
 
 	// 验证密码（bcrypt）
+	// 注意：Go 的 bcrypt 库同时兼容 $2a$ 和 $2b$ 前缀，无需额外处理
 	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password)); err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"code": 401, "msg": "用户名或密码错误"})
 		return
@@ -103,7 +105,7 @@ func (ctrl *AuthController) Register(c *gin.Context) {
 		return
 	}
 
-	// 哈希密码
+	// 哈希密码（bcrypt cost=10）
 	hash, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"code": 500, "msg": "密码处理失败"})

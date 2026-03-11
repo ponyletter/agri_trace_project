@@ -3,10 +3,10 @@ server:
   mode: debug  # debug | release
 
 database:
-  dsn: "root:123456@tcp(127.0.0.1:3306)/agri_trace?charset=utf8mb4&parseTime=True&loc=Local"
+  dsn: "agri_trace:agri_trace@tcp(81.69.190.161:3306)/agri_trace?charset=utf8mb4&parseTime=True&loc=Local"
 
 redis:
-  addr: "127.0.0.1:6379"
+  addr: "81.69.190.161:6379"
   password: ""
   db: 0
 
