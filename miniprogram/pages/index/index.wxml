@@ -1,0 +1,53 @@
+<!-- pages/index/index.wxml - 溯源查询首页 -->
+<view class="container">
+  <!-- 顶部 Banner -->
+  <view class="banner">
+    <image class="banner-img" src="../../images/banner.png" mode="aspectFill" />
+    <view class="banner-text">
+      <text class="banner-title">农产品溯源系统</text>
+      <text class="banner-sub">基于国密区块链 · 数据不可篡改</text>
+    </view>
+  </view>
+
+  <!-- 扫码溯源 -->
+  <view class="section">
+    <view class="section-title">快速溯源</view>
+    <view class="scan-area">
+      <button class="btn-scan" bindtap="scanQRCode">
+        <image src="../../images/scan.png" class="scan-icon" />
+        <text>扫描溯源二维码</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 手动输入溯源码 -->
+  <view class="section">
+    <view class="section-title">手动输入溯源码</view>
+    <view class="input-area">
+      <input
+        class="trace-input"
+        placeholder="请输入溯源批次号"
+        value="{{inputCode}}"
+        bindinput="onInputChange"
+      />
+      <button class="btn-query" bindtap="queryTrace">查询</button>
+    </view>
+  </view>
+
+  <!-- 示例批次号 -->
+  <view class="section">
+    <view class="section-title">示例溯源码</view>
+    <view class="example-list">
+      <view
+        class="example-item"
+        wx:for="{{examples}}"
+        wx:key="index"
+        bindtap="useExample"
+        data-code="{{item.code}}"
+      >
+        <text class="example-name">{{item.name}}</text>
+        <text class="example-code">{{item.code}}</text>
+      </view>
+    </view>
+  </view>
+</view>

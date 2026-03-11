@@ -1,0 +1,29 @@
+server:
+  port: 8080
+  mode: debug  # debug | release
+
+database:
+  dsn: "root:123456@tcp(127.0.0.1:3306)/agri_trace?charset=utf8mb4&parseTime=True&loc=Local"
+
+redis:
+  addr: "127.0.0.1:6379"
+  password: ""
+  db: 0
+
+jwt:
+  secret: "agri_trace_jwt_secret_2025"
+  expire_hours: 24
+
+blockchain:
+  # 当 mock_mode 为 true 时，系统不连接真实 Fabric 网络，使用模拟数据
+  mock_mode: false
+  config_path: "./config/fabric/config.yaml"
+  channel_name: "agrichannel"
+  chaincode_name: "agritrace"
+  org_name: "Org1"
+  user_name: "Admin"
+
+ipfs:
+  # 当 mock_mode 为 true 时，系统不连接真实 IPFS 节点，使用模拟 CID
+  mock_mode: false
+  api_url: "http://127.0.0.1:5001"

@@ -1,0 +1,77 @@
+<!-- pages/result/result.wxml - 溯源查询结果页 -->
+<view class="container" wx:if="{{traceData}}">
+  <!-- 产品基本信息卡片 -->
+  <view class="card product-card">
+    <view class="card-header">
+      <text class="card-title">产品基本信息</text>
+      <view class="status-tag status-{{traceData.status}}">{{traceData.status_label}}</view>
+    </view>
+    <view class="info-grid">
+      <view class="info-item">
+        <text class="info-label">产品名称</text>
+        <text class="info-value">{{traceData.product_name}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">产品类型</text>
+        <text class="info-value">{{traceData.product_type}}</text>
+      </view>
+      <view class="info-item">
+        <text class="info-label">数量</text>
+        <text class="info-value">{{traceData.quantity}} {{traceData.unit}}</text>
+      </view>
+      <view class="info-item full-width">
+        <text class="info-label">产地信息</text>
+        <text class="info-value">{{traceData.origin_info}}</text>
+      </view>
+      <view class="info-item full-width">
+        <text class="info-label">溯源批次号</text>
+        <text class="info-value batch-no">{{traceData.batch_no}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 溯源时间轴 -->
+  <view class="card">
+    <view class="card-header">
+      <text class="card-title">溯源时间轴</text>
+    </view>
+    <view class="timeline">
+      <view
+        class="timeline-item"
+        wx:for="{{traceData.timeline}}"
+        wx:key="id"
+      >
+        <view class="timeline-dot dot-{{item.node_type}}"></view>
+        <view class="timeline-line" wx:if="{{index < traceData.timeline.length - 1}}"></view>
+        <view class="timeline-content">
+          <view class="node-header">
+            <view class="node-tag tag-{{item.node_type}}">{{item.node_label}}</view>
+            <text class="node-time">{{item.operation_time}}</text>
+          </view>
+          <text class="node-location">📍 {{item.location}}</text>
+          <!-- 环境数据 -->
+          <view class="env-data" wx:if="{{item.env_data}}">
+            <view class="env-item" wx:for="{{item.env_data_list}}" wx:key="key" wx:for-item="env">
+              <text class="env-key">{{env.key}}</text>
+              <text class="env-val">{{env.val}}</text>
+            </view>
+          </view>
+          <!-- 区块链信息 -->
+          <view class="chain-info">
+            <text class="chain-hash">🔗 {{item.tx_hash_short}}</text>
+            <text class="block-height">区块: {{item.block_height}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 区块链验证说明 -->
+  <view class="card verify-card">
+    <text class="verify-text">✅ 以上溯源数据已通过国密SM3算法上链存证，数据真实可信、不可篡改</text>
+  </view>
+</view>
+
+<view class="empty" wx:else>
+  <text>暂无溯源数据</text>
+</view>
